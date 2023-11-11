@@ -1,0 +1,53 @@
+{% include 'header.html' %}
+{% load static %}
+        <div class="row mt-3">
+
+            <div class="col-md-4">
+                <h4>Category</h4>
+                <hr>
+                <p>
+                    <a href="/catfilter/1"><button type="button" class="btn btn-success">Python</button></a>
+                    <a href="/catfilter/2"><button type="button" class="btn btn-success">Data Science</button></a>
+                </p>
+                <p>
+                    <a href="/catfilter/3"><button type="button" class="btn btn-success">Data Analysis</button></a>
+                    <a href="/catfilter/4"><button type="button" class="btn btn-success">Java</button></a>
+                </p>        
+            </div><!--Category end-->
+
+            <div class="col-md-8">
+                <h4>Latest Blog Post</h4>
+                <hr>
+                
+                {% for x in blog %}
+                <div class="row mt-3">
+                    <div class="col-md-3">
+                        <img src="{% static 'images/frenchfood.jpg' %}" alt="" width="100%">
+                    </div><!--Blog image-->
+                    <div class="col-md-9">
+                        <strong>Author:</strong>&nbsp;&nbsp;
+                        <strong>Publish Date:</strong>00 aaa 0000&nbsp;&nbsp;
+                        0 mins read&nbsp;&nbsp;
+
+                        <p><strong>{{x.title}}</strong></p>
+                        <p>
+                           {{x.details}}
+                        </p>
+                        {% if x.cat == 1 %}
+                        <p><strong>Categoty:Pyhton</strong></p>
+                        {% elif x.cat == 2 %}
+                        <p><strong>Categoty:Data Science</strong></p>
+                        {% elif x.cat == 3 %}
+                        <p><strong>Categoty:Data Analysis</strong></p>
+                        {% elif x.cat == 4 %}
+                        <p><strong>Categoty:Java</strong></p>
+                        {% endif %}
+                        <a href=""><button class="btn btn-danger">Read more</button></a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div><!--Latest blog post -->
+
+
+        </div>
+{% include 'footer.html' %}

@@ -1,0 +1,65 @@
+{% include 'header.html' %}
+        <!-- main-content -->
+        <div class="row mt-">
+
+            <div class="col-md-6 mx-auto">
+
+                {% for x in blog %}
+                <table class="table table-hover">
+
+                    <tr>
+                        <th>Blog Title</th>
+                        <td>{{x.title}}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Blog Category</th>
+                        {% if x.cat == 1 %}
+                          <td value="1">Python</td>
+                          {% elif x.cat == 2 %}
+                          <td value="2">Data Science</td>
+                          {% elif x.cat == 3 %}
+                          <td value="3">Data Analysis</td>
+                          {% elif x.cat == 4 %}
+                          <td value="4">Java</td>
+                          {% endif %}
+                    </tr>
+
+                    <tr>
+                        <th>Blog Details</th>
+                        <td>{{x.details}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            {% if x.is_published %}
+                            <a href="/publish/U/{{x.id}}">
+                                <button class="btn btn-success">Unpublish</button>
+                            </a>
+                            {% else %}
+                            <a href="/publish/P/{{x.id}}">
+                                <button class="btn btn-success">Publish</button>
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    
+                            
+
+                </table>
+                {% endfor %}
+                {% if pmessage %}
+                    <div class="alert alert-success" role="alert">
+                        {{pmessage}}
+                    </div>
+                {% elif umessage %}
+                    <div class="alert alert-success" role="alert">
+                        {{umessage}}
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+
+{% include 'footer.html' %}
