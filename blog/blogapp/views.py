@@ -37,11 +37,11 @@ def homePage(request):
     return render(request,'home.html',context)
 
 def userDashboard(request):
-    print("Logged in user:",request.user)
-    print("Logged in user id:",request.user.id)
-    print("Logged in user firstname:",request.user.first_name)
-    print("Logged in user lastname:",request.user.last_name)
-    # b=Blog.objects.all()
+    # print("Logged in user:",request.user)
+    # print("Logged in user id:",request.user.id)
+    # print("Logged in user firstname:",request.user.first_name)
+    # print("Logged in user lastname:",request.user.last_name)
+    # # b=Blog.objects.all()
     # print(b)
     # for x in b:
     #     print(x)
@@ -51,28 +51,35 @@ def userDashboard(request):
     #     print(x.details)
     #     print(x.created_at)
     #     print()
-    b=Blog.objects.filter(uid=request.user.id)
-    context={}
-    context["blogs"]=b
-    return render(request,'dashboard.html',context)
+    if request.user.is_authenticated:
+        b=Blog.objects.filter(uid=request.user.id)
+        context={}
+        context["blogs"]=b
+        return render(request,'dashboard.html',context)
+    else:
+        return redirect("/login")
 
 def createBlog(request):
     print("Method used:",request.method)
-    if request.method=="GET":
-        print("In GET Section")
-        return render(request,'create_blog.html')
-    else:
-        print("In POST section")
-        btitle=request.POST["title"];
-        bdetails=request.POST["details"];
-        bcat=request.POST["cat"];
+    if request.user.is_authenticated:
+        if request.method=="GET":
+            print("In GET Section")
+            return render(request,'create_blog.html')
+        else:
+            print("In POST section")
+            btitle=request.POST["title"];
+            bdetails=request.POST["details"];
+            bcat=request.POST["cat"];
         # print("Title:",btitle)
         # print("Details:",bdetails)
         # print("Category:",bcat)
-        b=Blog.objects.create(title=btitle,details=bdetails,cat=bcat,created_at=datetime.datetime.now(),uid=request.user.id)
-        b.save()
-        # return HttpResponse("Data inserted successfully")
-        return redirect("/userdashboard")
+            b=Blog.objects.create(title=btitle,details=bdetails,cat=bcat,created_at=datetime.datetime.now(),uid=request.user.id)
+            b.save()
+            # return HttpResponse("Data inserted successfully")
+            return redirect("/userdashboard")
+    else:
+        return redirect("/login")
+    
     
 def editBlog(request,rid):
     # print("ID to be edited :"+rid)
